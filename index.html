@@ -64,7 +64,7 @@
                 function validateMessage() {
                     var message = document.getElementById('contact-message').value;
 
-                    if (message.length > 0) {
+                    if (message.length < 0) {
                         document.getElementById("contact-message").classList.add("error");
                         return false;
                     }
