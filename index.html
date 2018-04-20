@@ -41,7 +41,7 @@
                 function validateEmail (selector) {
                     let  selectedId = selector
                     let email = document.getElementById(selectedId).value;
-                    console.log("email "+ email.length);
+                    
                     if(email.length == 0) {
 
                         document.getElementById(selectedId).classList.add("error");
@@ -62,9 +62,11 @@
                 }
 
                 function validateMessage() {
-                    var message = document.getElementById('contact-message').value;
+                    let message = document.getElementById('contact-message').value;
+                    let required = 30;
+                    let left = required - message.length;
 
-                    if (message.length < 0) {
+                    if (left > 0) {
                         document.getElementById("contact-message").classList.add("error");
                         return false;
                     }
