@@ -11,22 +11,116 @@
 
 
         <link rel="stylesheet" href="css/reset.css">
-        <link rel="stylesheet" href="bower_components/flexboxgrid-sass/dist/flexboxgrid.css">
+        <!-- <link rel="stylesheet" href="bower_components/flexboxgrid-sass/dist/flexboxgrid.css"> -->
         <link rel="stylesheet" href="css/main.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         
+
+        <script>
+            function validateName(id) {
+                
+                    var name = document.getElementById('contact-name').value;
+
+                    if(name.length == 0) {
+                        document.getElementById("contact-name").classList.add("error");
+                    return false;
+
+                    }
+
+                    if (!name.match(/^[A-Za-z]*\s{1}[A-Za-z]*$/)) {
+                        document.getElementById("contact-name").classList.add("error");
+                    return false;
+
+                    }
+
+                    document.getElementById("contact-name").classList.remove("error");
+                    return true;
+
+                }
+
+                function validateEmail (selector) {
+                    let  selectedId = selector
+                    let email = document.getElementById(selectedId).value;
+                    console.log("email "+ email.length);
+                    if(email.length == 0) {
+
+                        document.getElementById(selectedId).classList.add("error");
+                    return false;
+
+                    }
+
+                    if(!email.match(/^[A-Za-z\._\-[0-9]*[@][A-Za-z]*[\.][a-z]{2,4}$/)) {
+
+                        document.getElementById(selectedId).classList.add("error");
+                    return false;
+
+                    }
+
+                        document.getElementById(selectedId).classList.remove("error");
+                    return true;
+
+                }
+
+                function validateMessage() {
+                    var message = document.getElementById('contact-message').value;
+
+                    if (message.length > 0) {
+                        document.getElementById("contact-message").classList.add("error");
+                        return false;
+                    }
+
+                    document.getElementById("contact-message").classList.remove("error");
+                    return true;
+
+                }
+
+                function validateForm() {
+                    if (!validateName() || !validateEmail('contact-email') || !validateMessage()) {
+                        console.log("Error");
+                        return false
+                    }
+                    else {
+                        console.log("Success");
+                        document.getElementById('contact-name').value = '';
+                        document.getElementById('contact-email').value = '';
+                        document.getElementById('contact-message').value = '';
+                        successMessage();
+                    }
+                }
+
+                function newsletterSubmit(){
+                    if(!validateEmail('newsletter-email')){
+                        return false;
+                    }else{
+                        document.getElementById('newsletter-email').value = '';
+                    }
+                }
+
+                function successMessage(){
+                    document.getElementById("success-message").classList.add("show");
+                    setTimeout(function(){
+                        document.getElementById("success-message").classList.remove("show");
+                    },3000);
+                }
+
+
+              function removeError(id){
+                document.getElementById(id.getAttribute('id')).classList.remove("error");
+                console.log("THis "+ id.getAttribute('id'));
+              }  
+        </script>
 
     </head>
     <body>
         <div class="header">
             <div class="wrapper">
                 <div class="row">
-                    <div class="col-xs-12 col-sm-8 col-md-2">
+                    <div class="col-xs-12 col-sm-12 col-md-2">
                         <div class="logo-container">
                             <a><img src="img/en-souqalmal.png" alt="souqalmal"></a>
                         </div>
                     </div>   
-                    <div class="col-xs-12 col-sm-4 col-md-8">
+                    <div class="col-xs-12 col-sm-12 col-md-8">
                         <div class="nav-menu">
                             <ul>
                                 <li><a href="https://www.souqalmal.com/ae-en/insurance">Insurance</a></li>
@@ -38,8 +132,11 @@
                             </ul>        
                         </div>    
                     </div>   
-                    <div class="col-xs-12 col-sm-4 col-md-2">
-                            <a href="">العربية</a>
+                    <div class="col-md-2 hidden-sm">
+                        <div class="language-block">
+                            <span><a href="">العربية</a></span>
+                            <span class="select-country"><img src="img/uae.png" alt=""> UAE</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -103,7 +200,7 @@
                                  <p><strong>PO Box:</strong> 71208</p>
                              </abbr>
                              <abbr title="Email">
-                                    <p><strong>Email</strong> info@lifecareinternational.com</p>
+                                    <p><strong>Email</strong> <a href="mailto:info@lifecareinternational.com">info@lifecareinternational.com</a></p>
                              </abbr>
                              <abbr title="Contact Number">
                                  <p><strong>Contact No:</strong> +971 (0) 4 305 9500</p>
@@ -118,20 +215,23 @@
                             <p>If you have any suggestions on how to make our website better or if you are interested in finding out more about business or advertising opportunities.
                                 </p>
                             <div class="contact-form_widget">
-                                <div class="contact-form_widget_element">
-                                    <label for="name">Name</label>
-                                    <input type="text" >
-                                </div>
-                                <div class="contact-form_widget_element">
-                                    <label for="email">Email</label>
-                                    <input type="email" >
-                                </div>
-                                <div class="contact-form_widget_element">
-                                    <label for="message">Message</label>
-                                    <textarea ></textarea>
-                                </div>
+                                <form action="javascript:void(0)">
+                                    <div class="contact-form_widget_element">
+                                        <label for="name">Name</label>
+                                        <input type="text" id="contact-name"  placeholder="e.g Roula" onblur="validateName(this)" onfocus="removeError(this)">
+                                    </div>
+                                    <div class="contact-form_widget_element">
+                                        <label for="email">Email</label>
+                                        <input type="email" id="contact-email" placeholder="e.g test@test.com" onblur="validateEmail('contact-email')"  onfocus="removeError(this)">
+                                    </div>
+                                    <div class="contact-form_widget_element">
+                                        <label for="message" >Message</label>
+                                        <textarea id="contact-message" rows="7" placeholder="Write your message here" onblur='validateMessage(this)' onfocus="removeError(this)"></textarea>
+                                    </div>
 
-                                <button class="button" value="send">send</button>
+                                    <button class="button" value="send" onclick='validateForm()'>send</button>
+                                    <div id="success-message">Thanks you</div>
+                                </form>
                             </div>    
                         </section>
                     </div>        
@@ -142,29 +242,29 @@
         <div class="social">
                 <div class="wrapper">
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-xs-12 col-md-12">
                             <div class="row">
-                                <div class="col-md-6 col-sm-12 col-xs-12">
+                                <div class=" col-xs-12 col-sm-12 col-md-6">
                                     <div class="row">
-                                        <div class="col-md-3 hidden-sm hidden-xs">
-                                            <span class="social-title"><h4>Follow us</h4></span>
+                                        <div class="col-md-3">
+                                            <span class="social-title hidden-sm"><h4>Follow us</h4></span>
                                         </div>
-                                        <div class="col-md-5 col-sm-12 col-xs-12 social-icons">
+                                        <div class="col-xs-12 col-sm-12 col-md-5 social-icons">
                                             <a href="https://www.facebook.com/souqalmalcom" class="social-icon" target="_blank"><i class="fa fa-facebook"></i></a>
                                             <a href="https://twitter.com/souqalmaluae" class="social-icon" target="_blank"><i class="fa fa-twitter"></i></a>
                                             <a href="https://www.linkedin.com/company/souqalmal-com/" class="social-icon" target="_blank"><i class="fa fa-linkedin"></i></a>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6 col-sm-12 col-xs-12 newsletter">
+                                <div class="col-xs-12 col-sm-12 col-md-6  newsletter">
                                     <div class="row">
-                                        <div class="col-md-3 col-sm-12 col-xs-12">
+                                        <div class="col-xs-12 col-sm-12 col-md-3">
                                             <span class="social-title"><h4>Newsletter</h4></span>
                                         </div>
-                                        <div class="col-md-9 col-sm-12 col-xs-12">
+                                        <div class=" col-xs-12 col-sm-12 col-md-9">
                                             <div class="social-email">
-                                                <input class="input-control" type="email" placeholder="Enter your email address">
-                                                <button type="submit" class="button">Submit</button>
+                                                <input class="input-control" type="email" id="newsletter-email" placeholder="Enter your email address" onblur="validateEmail('newsletter-email')"  onfocus="removeError(this)">
+                                                <button type="submit" class="button" onclick="newsletterSubmit()">Submit</button>
                                             </div>
                                         </div>
                                     </div>
@@ -180,7 +280,7 @@
                 <div class="row">
                 <div class="col-md-12">
                     <div class="row">
-                    <div class="col-md-2 col-sm-12 col-xs-12">
+                    <div class="col-xs-12 col-sm-12 col-md-2 ">
                         <h5>Site Map</h5>
                             <ul>
                                 <li><a href="https://www.souqalmal.com/ae-en/insurance">Insurance</a></li>
@@ -191,7 +291,7 @@
                                 <li><a href="https://www.souqalmal.com/financial-education/ae-en">Blog</a></li>
                         </ul>
                     </div>
-                    <div class="col-md-4 col-sm-12 col-xs-12">
+                    <div class=" col-xs-12 col-sm-12 col-md-4 ">
                         <h5>Insurance Providers</h5>
                             <div class="providers-list">
                                 <ul>
@@ -210,7 +310,7 @@
                                 </ul>
                     </div>
                     </div>
-                    <div class="col-md-3 col-sm-12 col-xs-12">
+                    <div class="col-xs-12 col-sm-12 col-md-3">
                         <h5>Related Links</h5>
                             <ul>
                                 <li><a href="https://www.souqalmal.com/ae-en/glossary">Glossary</a></li>
@@ -221,7 +321,7 @@
                                 <li><a href="https://www.souqalmal.com/ae-en/privacy-policy">Privacy Policy</a></li>
                         </ul>
                     </div>
-                <div class="col-md-3 col-sm-12 col-xs-12 contact">
+                <div class=" col-xs-12 col-sm-12 col-md-3 contact">
                     <h5>Contact</h5>
                         <abbr>
                             <i class="fa fa-map-marker"></i>
@@ -246,17 +346,18 @@
                 <div class="footer-credit">
                     <div class="wrapper">
                         <div class="row">
-                            <div class="col-md-6 col-sm-12 col-xs-12">
+                            <div class="col-xs-12 col-sm-12 col-md-6">
                                 <p class="copyright">© Souqalmal.com 2018 - All Rights Reserved</p>
                             </div>
-                            <div class="col-md-5 col-sm-12 col-xs-12 footer-credit-logos">
-                                <img class="logo" src="https://static4.souqalmal.com/images/products/life-care-logo.png">
-                                <img class="logo" src="https://static4.souqalmal.com/images/credit-card-logos/mastercard-logo.png">
-                                <img class="logo" src="https://static4.souqalmal.com/images/credit-card-logos/visa-logo.png">
+                            <div class=" col-xs-12 col-sm-12 col-md-5 footer-credit-logos">
+                                <img class="logo" src="img/life-care-logo.png">
+                                <img class="logo" src="img/mastercard-logo.png">
+                                <img class="logo" src="img/visa-logo.png">
                             </div>
                         </div>
                     </div>
                 </div>
         
+
     </body>
 </html>

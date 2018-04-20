@@ -7,8 +7,16 @@ $border-color:#DDDDDD;
 $normal-font : 16px;
 $normal-sm-font: 14px;
 
+$error-color : #dc3545;
+
 $Semibold : 600;
 $bold: 700;
+
+@import '../bower_components/flexboxgrid-sass/flexboxgrid.scss';
+
+/* Using SCSS variables to store breakpoints */
+$breakpoint-tablet: 768px;
+
 
 /* Global style */
 body {
@@ -107,6 +115,41 @@ body {
     }
   }
   
+  .language-block{
+      padding: 15px 0;
+
+      a{
+          margin-right:20px; 
+          color: $default-color;
+      }
+
+      img{
+          width: 30px;
+          margin-right: 5px;
+          vertical-align: middle;
+      }
+
+      .select-country{
+          position: relative;
+          padding-right: 15px;
+
+          &:after{
+              position: absolute;
+              right:0;
+              content: '';
+              width: 6px;
+              height: 6px;
+              border-style: solid;
+                border-color:$default-color;
+                border-width: 0px 1px 1px 0px;
+                transform: rotate(45deg);
+                top:5px;
+
+          }
+      }
+  }
+
+
   /* .Header Style */
 
   /* Contact main Section */
@@ -183,6 +226,13 @@ body {
   .contact-form_widget_element {
     margin-bottom: 20px;
   }
+
+  .contact-form_widget_element{
+      input.error,
+      textarea.error{
+          border: 1px solid $error-color;
+      }
+  }
   
   .contact-form_widget {
     label {
@@ -199,6 +249,20 @@ body {
       padding: 15px;
       width: 280px;
     }
+
+    button{
+        width: 90%;
+    }
+    #success-message{
+        color: #28a745;
+        padding: 10px 15px;
+        display: none;
+        width: 90%;
+        text-align: center;
+        &.show{
+            display: block;
+        }
+    }
   }
   
   .input-control {
@@ -210,9 +274,16 @@ body {
     width: 200px;
     margin-left: 12px;
     margin-right: 5px;
+
+    &.error{
+        border: 1px solid $error-color;
+    }
   }
   
-  .contact-form_widget input::-webkit-input-placeholder {}
+  .contact-form_widget input::placeholder,
+  .contact-form_widget textarea::placeholder {
+    font-style: italic;
+  }
   
 /* Contact form sidebar */
 
@@ -314,3 +385,87 @@ body {
     text-align: right;
   }
 
+.hidden-md{
+    display: none
+}
+.hidden-sm{
+    display: block
+}
+  
+@media (max-width: $breakpoint-tablet) {
+
+
+    .hidden-md{
+        display: block
+    }
+    .hidden-sm{
+        display: none;
+    }
+
+
+    .logo-container {
+        width: 25%;
+        margin: 0 auto;
+    }
+    
+    .nav-menu{
+        margin: 0;
+    }
+
+    .nav-menu ul li:first-child{
+        border-top: 1px solid $border-color;
+    }
+
+    .nav-menu ul li{
+        width: 100%;
+        border-bottom: 1px solid $border-color;
+    }
+
+    .contact-section{
+        padding-right: 0;
+        padding-top: 20px;
+    }
+
+    .contact-form{
+        padding-bottom: 30px;
+        padding-top: 20px;
+    }
+
+    .contact-form_widget input, .contact-form_widget textarea{
+        width: 90%;
+    }
+
+    .social-icons{
+        text-align: center;
+        padding-top: 10px;
+    }
+    .newsletter{
+        padding: 0 15px;
+    }
+    .input-control{
+        width: 70%;
+        margin: 0;
+    }
+
+    .newsletter{
+        .button{
+            width: 20%;
+            padding: 10px 0;
+        }
+    }
+
+    
+
+    .footer{
+        padding: 15px 40px 30px 40px;
+        ul{
+            padding: 0;
+        }
+        .contact h5{
+            margin-bottom: 15px;
+        }
+    }
+    .footer-credit-logos,.footer-credit{
+        text-align: center;
+    }
+}
